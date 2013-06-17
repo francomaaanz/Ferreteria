@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FERRETERIAModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="FERRETERIAModelStoreContainer">
+          <EntitySet Name="CLIENTE" EntityType="FERRETERIAModel.Store.CLIENTE" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Estado_Pedido" EntityType="FERRETERIAModel.Store.Estado_Pedido" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PEDIDO_PROVEEDOR" EntityType="FERRETERIAModel.Store.PEDIDO_PROVEEDOR" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PRODUCTO" EntityType="FERRETERIAModel.Store.PRODUCTO" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PRODUCTO_FALTANTE_ROTO" EntityType="FERRETERIAModel.Store.PRODUCTO_FALTANTE_ROTO" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PROVEEDOR" EntityType="FERRETERIAModel.Store.PROVEEDOR" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="sysdiagrams" EntityType="FERRETERIAModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Ventas_Por_Dia" EntityType="FERRETERIAModel.Store.Ventas_Por_Dia" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_PEDIDO_PROVEEDOR_Estado_Pedido" Association="FERRETERIAModel.Store.FK_PEDIDO_PROVEEDOR_Estado_Pedido">
+            <End Role="Estado_Pedido" EntitySet="Estado_Pedido" />
+            <End Role="PEDIDO_PROVEEDOR" EntitySet="PEDIDO_PROVEEDOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PEDIDO_PROVEEDOR_PROVEEDOR" Association="FERRETERIAModel.Store.FK_PEDIDO_PROVEEDOR_PROVEEDOR">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PEDIDO_PROVEEDOR" EntitySet="PEDIDO_PROVEEDOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO" Association="FERRETERIAModel.Store.FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="PRODUCTO_FALTANTE_ROTO" EntitySet="PRODUCTO_FALTANTE_ROTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR" Association="FERRETERIAModel.Store.FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PRODUCTO_FALTANTE_ROTO" EntitySet="PRODUCTO_FALTANTE_ROTO" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="IDCliente" />
+          </Key>
+          <Property Name="Nombre" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="Apellido" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Dni" Type="int" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="datetime" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="Saldo" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="IDCliente" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Estado_Pedido">
+          <Key>
+            <PropertyRef Name="Estado" />
+          </Key>
+          <Property Name="Estado" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PEDIDO_PROVEEDOR">
+          <Key>
+            <PropertyRef Name="ID_PEDIDO_PROVEEDOR" />
+          </Key>
+          <Property Name="ID_PEDIDO_PROVEEDOR" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IDproveedor" Type="int" Nullable="false" />
+          <Property Name="FechaPedido" Type="datetime" Nullable="false" />
+          <Property Name="FechaLLegada" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TiempoDemoraPedido" Type="nchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="IDproducto" />
+          </Key>
+          <Property Name="DetalleProducto" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PrecioNeto" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="PrecioIva" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="IDproducto" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StockMinimo" Type="int" />
+          <Property Name="Rubro" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PRODUCTO_FALTANTE_ROTO">
+          <Key>
+            <PropertyRef Name="Id_prodFaltaRo" />
+          </Key>
+          <Property Name="Id_prodFaltaRo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IDproducto" Type="int" Nullable="false" />
+          <Property Name="IDproveedor" Type="int" Nullable="false" />
+          <Property Name="Detalle" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PROVEEDOR">
+          <Key>
+            <PropertyRef Name="IDproveedor" />
+          </Key>
+          <Property Name="CUIT" Type="nvarchar" Nullable="false" MaxLength="12" />
+          <Property Name="RazonSocial" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Telefono" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Direccion" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ProvinciaCiudad" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CodigoPostal" Type="nvarchar" Nullable="false" MaxLength="4" />
+          <Property Name="IDproveedor" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroDeCuenta1" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="NumeroDeCuenta2" Type="nvarchar" MaxLength="50" />
+          <Property Name="CBU" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Ventas_Por_Dia">
+          <Key>
+            <PropertyRef Name="IDVentasPorDia" />
+          </Key>
+          <Property Name="monto" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="IDVentasPorDia" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PEDIDO_PROVEEDOR_Estado_Pedido">
+          <End Role="Estado_Pedido" Type="FERRETERIAModel.Store.Estado_Pedido" Multiplicity="1" />
+          <End Role="PEDIDO_PROVEEDOR" Type="FERRETERIAModel.Store.PEDIDO_PROVEEDOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado_Pedido">
+              <PropertyRef Name="Estado" />
+            </Principal>
+            <Dependent Role="PEDIDO_PROVEEDOR">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PEDIDO_PROVEEDOR_PROVEEDOR">
+          <End Role="PROVEEDOR" Type="FERRETERIAModel.Store.PROVEEDOR" Multiplicity="1" />
+          <End Role="PEDIDO_PROVEEDOR" Type="FERRETERIAModel.Store.PEDIDO_PROVEEDOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="IDproveedor" />
+            </Principal>
+            <Dependent Role="PEDIDO_PROVEEDOR">
+              <PropertyRef Name="IDproveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO">
+          <End Role="PRODUCTO" Type="FERRETERIAModel.Store.PRODUCTO" Multiplicity="1" />
+          <End Role="PRODUCTO_FALTANTE_ROTO" Type="FERRETERIAModel.Store.PRODUCTO_FALTANTE_ROTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="IDproducto" />
+            </Principal>
+            <Dependent Role="PRODUCTO_FALTANTE_ROTO">
+              <PropertyRef Name="IDproducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR">
+          <End Role="PROVEEDOR" Type="FERRETERIAModel.Store.PROVEEDOR" Multiplicity="1" />
+          <End Role="PRODUCTO_FALTANTE_ROTO" Type="FERRETERIAModel.Store.PRODUCTO_FALTANTE_ROTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="IDproveedor" />
+            </Principal>
+            <Dependent Role="PRODUCTO_FALTANTE_ROTO">
+              <PropertyRef Name="IDproveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FERRETERIAModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="FERRETERIAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="FERRETERIAModel.sysdiagrams" />
+          <EntitySet Name="Estado_Pedido" EntityType="FERRETERIAModel.Estado_Pedido" />
+          <EntitySet Name="PEDIDO_PROVEEDOR" EntityType="FERRETERIAModel.PEDIDO_PROVEEDOR" />
+          <EntitySet Name="PRODUCTO_FALTANTE_ROTO" EntityType="FERRETERIAModel.PRODUCTO_FALTANTE_ROTO" />
+          <AssociationSet Name="FK_PEDIDO_PROVEEDOR_Estado_Pedido" Association="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_Estado_Pedido">
+            <End Role="Estado_Pedido" EntitySet="Estado_Pedido" />
+            <End Role="PEDIDO_PROVEEDOR" EntitySet="PEDIDO_PROVEEDOR" />
+          </AssociationSet>
+          <EntitySet Name="PROVEEDOR" EntityType="FERRETERIAModel.PROVEEDOR" />
+          <AssociationSet Name="FK_PEDIDO_PROVEEDOR_PROVEEDOR" Association="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_PROVEEDOR">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PEDIDO_PROVEEDOR" EntitySet="PEDIDO_PROVEEDOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR" Association="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PRODUCTO_FALTANTE_ROTO" EntitySet="PRODUCTO_FALTANTE_ROTO" />
+          </AssociationSet>
+          <EntitySet Name="CLIENTE" EntityType="FERRETERIAModel.CLIENTE" />
+          <EntitySet Name="PRODUCTO" EntityType="FERRETERIAModel.PRODUCTO" />
+          <AssociationSet Name="FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO" Association="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="PRODUCTO_FALTANTE_ROTO" EntitySet="PRODUCTO_FALTANTE_ROTO" />
+          </AssociationSet>
+          <EntitySet Name="Ventas_Por_Dia" EntityType="FERRETERIAModel.Ventas_Por_Dia" />
+          </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="principal_id" Nullable="false" />
+          <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="version" />
+          <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Estado_Pedido">
+          <Key>
+            <PropertyRef Name="Estado" />
+          </Key>
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PEDIDO_PROVEEDOR" Relationship="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_Estado_Pedido" FromRole="Estado_Pedido" ToRole="PEDIDO_PROVEEDOR" />
+        </EntityType>
+        <EntityType Name="PEDIDO_PROVEEDOR">
+          <Key>
+            <PropertyRef Name="ID_PEDIDO_PROVEEDOR" />
+          </Key>
+          <Property Type="Int32" Name="ID_PEDIDO_PROVEEDOR" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IDproveedor" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPedido" Nullable="false" />
+          <Property Type="DateTime" Name="FechaLLegada" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TiempoDemoraPedido" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Estado_Pedido" Relationship="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_Estado_Pedido" FromRole="PEDIDO_PROVEEDOR" ToRole="Estado_Pedido" />
+          <NavigationProperty Name="PROVEEDOR" Relationship="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_PROVEEDOR" FromRole="PEDIDO_PROVEEDOR" ToRole="PROVEEDOR" />
+        </EntityType>
+        <EntityType Name="PRODUCTO_FALTANTE_ROTO">
+          <Key>
+            <PropertyRef Name="Id_prodFaltaRo" />
+          </Key>
+          <Property Type="Int32" Name="Id_prodFaltaRo" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IDproducto" Nullable="false" />
+          <Property Type="Int32" Name="IDproveedor" Nullable="false" />
+          <Property Type="String" Name="Detalle" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PROVEEDOR" Relationship="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR" FromRole="PRODUCTO_FALTANTE_ROTO" ToRole="PROVEEDOR" />
+          <NavigationProperty Name="PRODUCTO" Relationship="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO" FromRole="PRODUCTO_FALTANTE_ROTO" ToRole="PRODUCTO" />
+        </EntityType>
+        <Association Name="FK_PEDIDO_PROVEEDOR_Estado_Pedido">
+          <End Type="FERRETERIAModel.Estado_Pedido" Role="Estado_Pedido" Multiplicity="1" />
+          <End Type="FERRETERIAModel.PEDIDO_PROVEEDOR" Role="PEDIDO_PROVEEDOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado_Pedido">
+              <PropertyRef Name="Estado" />
+            </Principal>
+            <Dependent Role="PEDIDO_PROVEEDOR">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PROVEEDOR">
+          <Key>
+            <PropertyRef Name="IDproveedor" />
+          </Key>
+          <Property Type="String" Name="CUIT" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RazonSocial" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProvinciaCiudad" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CodigoPostal" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="IDproveedor" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="NumeroDeCuenta1" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NumeroDeCuenta2" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CBU" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PEDIDO_PROVEEDOR" Relationship="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_PROVEEDOR" FromRole="PROVEEDOR" ToRole="PEDIDO_PROVEEDOR" />
+          <NavigationProperty Name="PRODUCTO_FALTANTE_ROTO" Relationship="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR" FromRole="PROVEEDOR" ToRole="PRODUCTO_FALTANTE_ROTO" />
+        </EntityType>
+        <Association Name="FK_PEDIDO_PROVEEDOR_PROVEEDOR">
+          <End Type="FERRETERIAModel.PROVEEDOR" Role="PROVEEDOR" Multiplicity="1" />
+          <End Type="FERRETERIAModel.PEDIDO_PROVEEDOR" Role="PEDIDO_PROVEEDOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="IDproveedor" />
+            </Principal>
+            <Dependent Role="PEDIDO_PROVEEDOR">
+              <PropertyRef Name="IDproveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR">
+          <End Type="FERRETERIAModel.PROVEEDOR" Role="PROVEEDOR" Multiplicity="1" />
+          <End Type="FERRETERIAModel.PRODUCTO_FALTANTE_ROTO" Role="PRODUCTO_FALTANTE_ROTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="IDproveedor" />
+            </Principal>
+            <Dependent Role="PRODUCTO_FALTANTE_ROTO">
+              <PropertyRef Name="IDproveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="IDCliente" />
+          </Key>
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Dni" Nullable="false" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="IDCliente" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="IDproducto" />
+          </Key>
+          <Property Type="String" Name="DetalleProducto" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="PrecioNeto" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="PrecioIva" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="Int32" Name="IDproducto" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StockMinimo" />
+          <Property Type="String" Name="Rubro" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PRODUCTO_FALTANTE_ROTO" Relationship="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO" FromRole="PRODUCTO" ToRole="PRODUCTO_FALTANTE_ROTO" />
+        </EntityType>
+        <Association Name="FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO">
+          <End Type="FERRETERIAModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="FERRETERIAModel.PRODUCTO_FALTANTE_ROTO" Role="PRODUCTO_FALTANTE_ROTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="IDproducto" />
+            </Principal>
+            <Dependent Role="PRODUCTO_FALTANTE_ROTO">
+              <PropertyRef Name="IDproducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Ventas_Por_Dia">
+          <Key>
+            <PropertyRef Name="IDVentasPorDia" />
+          </Key>
+          <Property Type="Decimal" Name="monto" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="IDVentasPorDia" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FERRETERIAModelStoreContainer" CdmEntityContainer="FERRETERIAEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FERRETERIAModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estado_Pedido">
+            <EntityTypeMapping TypeName="FERRETERIAModel.Estado_Pedido">
+              <MappingFragment StoreEntitySet="Estado_Pedido">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PEDIDO_PROVEEDOR">
+            <EntityTypeMapping TypeName="FERRETERIAModel.PEDIDO_PROVEEDOR">
+              <MappingFragment StoreEntitySet="PEDIDO_PROVEEDOR">
+                <ScalarProperty Name="TiempoDemoraPedido" ColumnName="TiempoDemoraPedido" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaLLegada" ColumnName="FechaLLegada" />
+                <ScalarProperty Name="FechaPedido" ColumnName="FechaPedido" />
+                <ScalarProperty Name="IDproveedor" ColumnName="IDproveedor" />
+                <ScalarProperty Name="ID_PEDIDO_PROVEEDOR" ColumnName="ID_PEDIDO_PROVEEDOR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO_FALTANTE_ROTO">
+            <EntityTypeMapping TypeName="FERRETERIAModel.PRODUCTO_FALTANTE_ROTO">
+              <MappingFragment StoreEntitySet="PRODUCTO_FALTANTE_ROTO">
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="IDproveedor" ColumnName="IDproveedor" />
+                <ScalarProperty Name="IDproducto" ColumnName="IDproducto" />
+                <ScalarProperty Name="Id_prodFaltaRo" ColumnName="Id_prodFaltaRo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVEEDOR">
+            <EntityTypeMapping TypeName="FERRETERIAModel.PROVEEDOR">
+              <MappingFragment StoreEntitySet="PROVEEDOR">
+                <ScalarProperty Name="CBU" ColumnName="CBU" />
+                <ScalarProperty Name="NumeroDeCuenta2" ColumnName="NumeroDeCuenta2" />
+                <ScalarProperty Name="NumeroDeCuenta1" ColumnName="NumeroDeCuenta1" />
+                <ScalarProperty Name="IDproveedor" ColumnName="IDproveedor" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="ProvinciaCiudad" ColumnName="ProvinciaCiudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="CUIT" ColumnName="CUIT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CLIENTE">
+            <EntityTypeMapping TypeName="FERRETERIAModel.CLIENTE">
+              <MappingFragment StoreEntitySet="CLIENTE">
+                <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="FERRETERIAModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="Rubro" ColumnName="Rubro" />
+                <ScalarProperty Name="StockMinimo" ColumnName="StockMinimo" />
+                <ScalarProperty Name="IDproducto" ColumnName="IDproducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="PrecioIva" ColumnName="PrecioIva" />
+                <ScalarProperty Name="PrecioNeto" ColumnName="PrecioNeto" />
+                <ScalarProperty Name="DetalleProducto" ColumnName="DetalleProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas_Por_Dia">
+            <EntityTypeMapping TypeName="FERRETERIAModel.Ventas_Por_Dia">
+              <MappingFragment StoreEntitySet="Ventas_Por_Dia">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IDVentasPorDia" ColumnName="IDVentasPorDia" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model" ZoomLevel="95">
+        <EntityTypeShape EntityType="FERRETERIAModel.sysdiagrams" Width="1.5" PointX="0.5" PointY="0.5" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="FERRETERIAModel.Estado_Pedido" Width="1.5" PointX="6.375" PointY="0.5" Height="1.4033821614583317" />
+        <EntityTypeShape EntityType="FERRETERIAModel.PEDIDO_PROVEEDOR" Width="1.5" PointX="4.375" PointY="0.5" Height="2.5571907552083317" />
+        <EntityTypeShape EntityType="FERRETERIAModel.PRODUCTO_FALTANTE_ROTO" Width="1.5" PointX="4.375" PointY="3.25" Height="2.172587890625" />
+        <AssociationConnector Association="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_Estado_Pedido" >
+          <ConnectorPoint PointX="6.375" PointY="1.2016910807291659" />
+          <ConnectorPoint PointX="5.875" PointY="1.2016910807291659" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="FERRETERIAModel.PROVEEDOR" Width="1.5" PointX="2.25" PointY="0.5" Height="3.3263964843749996" />
+        <AssociationConnector Association="FERRETERIAModel.FK_PEDIDO_PROVEEDOR_PROVEEDOR" >
+          <ConnectorPoint PointX="3.75" PointY="1.7785953776041668" />
+          <ConnectorPoint PointX="4.375" PointY="1.7785953776041668" />
+        </AssociationConnector>
+        <AssociationConnector Association="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PROVEEDOR" >
+          <ConnectorPoint PointX="3.75" PointY="3.5381982421875" />
+          <ConnectorPoint PointX="4.375" PointY="3.5381982421875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="FERRETERIAModel.CLIENTE" Width="1.5" PointX="8.25" PointY="0.5" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="FERRETERIAModel.PRODUCTO" Width="1.5" PointX="6.375" PointY="2.125" Height="2.5571907552083317" />
+        <AssociationConnector Association="FERRETERIAModel.FK_PRODUCTO_FALTANTE_ROTO_PRODUCTO" >
+          <ConnectorPoint PointX="6.375" PointY="3.9660953776041659" />
+          <ConnectorPoint PointX="5.875" PointY="3.9660953776041659" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="FERRETERIAModel.Ventas_Por_Dia" Width="1.5" PointX="10" PointY="0.5" Height="1.5956835937499996" />
+        </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
